@@ -29,7 +29,6 @@ const store = createStore(
   ),
 );
 
-
 export default class App extends Component {
   render() {
     return (
