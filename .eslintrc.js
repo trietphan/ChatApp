@@ -24,8 +24,6 @@ module.exports = {
     "space-before-keywords": 0,
     "space-after-keywords": 0,
     "space-return-throw-case": 0,
-    "react-native/no-unused-styles": 2,
-    "react-native/split-platform-components": 2,
     "jsx-a11y/href-no-hash": "off",
     "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }],
     "react/prefer-stateless-function": 0
