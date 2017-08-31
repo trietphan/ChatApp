@@ -28,9 +28,10 @@ export const Schema = [`
   type Query {
     user(email: String, id: Int): User
 
+    messages(groupId: Int, userId: Int): [Message]
+    
     group(id: Int!): Group
 
-    messages(groupId: id, userId: id): [Message]
   }
 
   schema {

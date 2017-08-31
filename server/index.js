@@ -5,7 +5,8 @@ import bodyParser from 'body-parser';
 import { createServer } from 'http';
 
 import { Schema } from './data/schema';
-import { Mocks } from './data/mocks';
+import { Resolvers } from './data/resolvers';
+// import { Mocks } from './data/mocks';
 
 const GRAPHQL_PORT = 8008;
 
@@ -13,13 +14,14 @@ const app = express();
 
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
+  resolvers: Resolvers,
 });
 
-addMockFunctionsToSchema({
-  schema: executableSchema,
-  mocks: Mocks,
-  preserveResolvers: true,
-});
+// addMockFunctionsToSchema({
+//   schema: executableSchema,
+//   mocks: Mocks,
+//   preserveResolvers: true,
+// });
 
 // `context` must be an object and can't be undefined when using connectors
 app.use('/graphql', bodyParser.json(), graphqlExpress({
