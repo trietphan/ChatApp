@@ -11,6 +11,8 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
+import AppWithNavigationState, { navigationReducer } from './Navigation';
+
 const networkInterface = createNetworkInterface({
   uri: 'http://localhost:8008/graphql',
 });
@@ -22,6 +24,7 @@ const client = new ApolloClient({
 const store = createStore(
   combineReducers({
     apollo: client.reducer(),
+    nav: navigationReducer,
   }),
   {},
   composeWithDevTools(
@@ -33,15 +36,7 @@ export default class App extends Component {
   render() {
     return (
       <ApolloProvider store={store} client={client}>
-        <View>
-          <PricingCard
-            color="#4f9deb"
-            title="Free"
-            price="$0"
-            info={['1 User', 'Basic Support', 'All Core Features']}
-            button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
-          />
-        </View>
+        <AppWithNavigationState />        
       </ApolloProvider>
     );
   }
