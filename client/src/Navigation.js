@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import { addNavigationHelpers, StackNavigator, TabNavigator } from 'react-navigation';
 import { connect } from 'react-redux';
 
+import Groups from './screens/Groups.screen';
+import Messages from './screens/Messages.screen';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -32,7 +35,7 @@ const TestScreen = title => () => (
 // Main scene with tabs
 const MainScreenNavigator = TabNavigator({
   Chats: {
-    screen: TestScreen('Chats'),
+    screen: Groups,
   },
   Settings: {
     screen: TestScreen('Settings'),
@@ -44,6 +47,11 @@ const AppNavigator = StackNavigator({
   Main: {
     screen: MainScreenNavigator,
   },
+  Messages: {
+    screen: Messages,
+  },
+}, {
+  mode: 'modal',
 });
 
 // reducer initialization code

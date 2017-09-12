@@ -1,10 +1,5 @@
 // client/src/app.js
 import React, { Component } from 'react';
-import {
-  View,
-} from 'react-native';
-
-import { PricingCard } from 'react-native-elements';
 
 import { ApolloProvider } from 'react-apollo';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
@@ -36,7 +31,7 @@ export default class App extends Component {
   render() {
     return (
       <ApolloProvider store={store} client={client}>
-        <AppWithNavigationState />        
+        <AppWithNavigationState />
       </ApolloProvider>
     );
   }
