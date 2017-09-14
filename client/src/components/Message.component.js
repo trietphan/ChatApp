@@ -48,7 +48,11 @@ const styles = StyleSheet.create({
 class Message extends PureComponent {
   render() {
     const { color, message, isCurrentUser } = this.props;
-    const { container, messageStyle, myMessage, messageUsername, messageTime, messageSpacer } = styles;
+    const {
+      container, messageStyle, myMessage,
+      messageUsername, messageTime, messageSpacer,
+    } = styles;
+
     return (
       <View style={container} key={message.id}>
         {isCurrentUser ?

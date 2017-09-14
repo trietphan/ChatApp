@@ -7,7 +7,10 @@ import {
   Text,
   View,
   TouchableHighlight,
+  ActivityIndicator,
 } from 'react-native';
+import { graphql, compose } from 'react-apollo';
+import { USER_QUERY } from '../graphql/User.query';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,13 +31,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     flex: 0.7,
   },
+  loading: {
+    justifyContent: 'center',
+    flex: 1,
+  },
 });
 
 // create fake data for the list
-const fakeData = () => _.times(100, i => ({
-  id: i,
-  name: `Group ${i}`,
-}));
+// const fakeData = () => _.times(100, i => ({
+//   id: i,
+//   name: `Group ${i}`,
+// }));
 
 class Group extends Component {
   constructor(props) {
@@ -79,7 +86,7 @@ class Groups extends Component {
 
   goToMessages(group) {
     const { navigate } = this.props.navigation;
-    navigate('Messages', { groupId: group.id, title: group.name })
+    navigate('Messages', { groupId: group.id, title: group.name });
   }
 
   keyExtractor = item => item.id;
@@ -87,10 +94,20 @@ class Groups extends Component {
   renderItem = ({ item }) => <Group group={item} goToMessages={this.goToMessages} />;
 
   render() {
+    const { loading, user } = this.props;
+
+    if (loading) {
+      return (
+        <View style={[styles.loading, styles.container]}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         <FlatList
-          data={fakeData()}
+          data={user.groups}
           keyExtractor={this.keyExtractor}
           renderItem={this.renderItem}
         />
@@ -103,6 +120,33 @@ Groups.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func,
   }),
+  loading: PropTypes.bool,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired,
+    groups: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      }),
+    ),
+  }),
 };
 
-export default Groups;
+// graphql() returns a func that can be applied to a React component
+// set the id variable for USER_QUERY using the component's existing props
+const userQuery = graphql(USER_QUERY, {
+  options: () => ({
+    variables: {
+      id: 1,
+    },
+  }),
+  props: ({ data: { loading, user } }) => ({
+    loading,
+    user,
+  }),
+});
+
+// Groups props will now have a 'data' paramater with the results
+// from graphql (e.g. this.props.data.user)
+export default userQuery(Groups);
