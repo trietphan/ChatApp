@@ -7,8 +7,10 @@ import {
   View,
 } from 'react-native';
 import randomColor from 'randomcolor';
+import { graphql, compose } from 'react-apollo';
 
 import Message from '../components/Message.component';
+import GROUP_QUERY from '../graphql/Group.query';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +19,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
   },
+  loading: {
+    justifyContent: 'center',
+  },
 });
+
 const fakeData = () => _.times(50, i => ({
   // every message will have a different color
   color: randomColor(),
@@ -40,6 +46,7 @@ class Messages extends Component {
       title: state.params.title,
     };
   };
+
   keyExtractor = item => item.message.id;
   renderItem = ({ item: { isCurrentUser, message, color } }) => (
     <Message

@@ -149,4 +149,6 @@ const userQuery = graphql(USER_QUERY, {
 
 // Groups props will now have a 'data' paramater with the results
 // from graphql (e.g. this.props.data.user)
-export default userQuery(Groups);
+export default compose(
+  userQuery,
+)(Groups);
